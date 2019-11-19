@@ -60,10 +60,9 @@ public class PropertiesFileManager {
             fileInput = new FileInputStream(archivo);
             configuracion.load(fileInput);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PropertiesFileManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } catch (IOException ex) {
-            Logger.getLogger(PropertiesFileManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }finally{
             try {
                 if (fileInput != null) {
