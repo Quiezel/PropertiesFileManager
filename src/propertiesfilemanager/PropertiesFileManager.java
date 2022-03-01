@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
  */
 public class PropertiesFileManager {
     private final File archivo;
-    private final Properties configuracion = new Properties();
+    private final Properties properties = new Properties();
 
     public PropertiesFileManager(String fileName) {
         this.archivo = new File(fileName + ".properties");
@@ -41,7 +41,7 @@ public class PropertiesFileManager {
         FileOutputStream fileOutput = null;
         try {
             fileOutput = new FileOutputStream(archivo);
-            configuracion.store(fileOutput, comentario);
+            properties.store(fileOutput, comentario);
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
         }finally{
@@ -58,7 +58,7 @@ public class PropertiesFileManager {
         FileInputStream fileInput = null;
         try {
             fileInput = new FileInputStream(archivo);
-            configuracion.load(fileInput);
+            properties.load(fileInput);
         } catch (FileNotFoundException ex) {
             return false;
         } catch (IOException ex) {
@@ -76,26 +76,30 @@ public class PropertiesFileManager {
     }
     
     public void clear(){
-        configuracion.clear();
+        properties.clear();
     }
     
     public List<Object> obtenerLista(){
-        return new ArrayList<>(configuracion.keySet());
+        return new ArrayList<>(properties.keySet());
     }
 
     public String obtenerPropiedad(String propiedad, String defaultValue) {
-        return configuracion.getProperty(propiedad, defaultValue);
+        return properties.getProperty(propiedad, defaultValue);
     }
 
     public void definirConfiguracion(String parametro, String valor) {
-        configuracion.setProperty(parametro, valor);
+        properties.setProperty(parametro, valor);
     }
 
     public List<String> obtenerPropiedades(String propiedad, String defaultValue) {
-        return Arrays.asList(configuracion.getProperty(propiedad, defaultValue).split(","));
+        return Arrays.asList(properties.getProperty(propiedad, defaultValue).split(","));
+    }
+
+    public List<String> obtenerPropiedades(String propiedad, List<String> defaultValue) {
+        return Arrays.asList(properties.getProperty(propiedad, String.join(",", defaultValue)).split(","));
     }
 
     public void definirConfiguraciones(String parametro, List<String> valores) {
-        configuracion.setProperty(parametro, String.join(",", valores));
+        properties.setProperty(parametro, String.join(",", valores));
     }
 }
